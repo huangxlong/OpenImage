@@ -62,20 +62,20 @@ class OpenImage4ParseData extends OpenImage4Params {
         Intent intent = inputIntentData();
         ArrayList<OpenImageDetail> openImageDetails;
         Pair<View, String> viewPair;
-        if (isNoneClickView){
+        if (isNoneClickView) {
             openImageDetails = new ArrayList<>();
             viewPair = initShareView(openImageDetails);
-            ImageLoadUtils.getInstance().setOnBackView(backViewKey, new ExitOnBackView(null){
+            ImageLoadUtils.getInstance().setOnBackView(backViewKey, new ExitOnBackView(null) {
                 @Override
                 public ShareExitViewBean onBack(int showPosition) {
                     Activity activity = ActivityCompatHelper.getActivity(context);
                     if (activity != null) {
-                        activity.setExitSharedElementCallback(new BaseSharedElementCallback(context,OpenImage4ParseData.this));
+                        activity.setExitSharedElementCallback(new BaseSharedElementCallback(context, OpenImage4ParseData.this));
                     }
                     return super.onBack(showPosition);
                 }
             });
-        }else if (recyclerView != null) {
+        } else if (recyclerView != null) {
             if (sourceImageViewIdGet == null) {
                 throw new IllegalArgumentException("sourceImageViewIdGet 不能为null");
             }
@@ -88,7 +88,7 @@ class OpenImage4ParseData extends OpenImage4Params {
 
             openImageDetails = new ArrayList<>();
             viewPair = initShareView(openImageDetails);
-            if (checkIllegalException4ShareView(viewPair,"请确保是否调用了 setClickPosition 并且参数设置正确，或 SourceImageViewIdGet 返回的 ImageView 的Id正确")){
+            if (checkIllegalException4ShareView(viewPair, "请确保是否调用了 setClickPosition 并且参数设置正确，或 SourceImageViewIdGet 返回的 ImageView 的Id正确")) {
                 return;
             }
             View shareViewClick = viewPair.first;
@@ -119,7 +119,7 @@ class OpenImage4ParseData extends OpenImage4Params {
             openImageDetails = new ArrayList<>();
 
             viewPair = initShareView(openImageDetails);
-            if (checkIllegalException4ShareView(viewPair,"请确保是否调用了setClickPosition并且参数设置正确，或 SourceImageViewIdGet 返回的 ImageView 的Id正确")){
+            if (checkIllegalException4ShareView(viewPair, "请确保是否调用了setClickPosition并且参数设置正确，或 SourceImageViewIdGet 返回的 ImageView 的Id正确")) {
                 return;
             }
             View shareViewClick = viewPair.first;
@@ -148,7 +148,7 @@ class OpenImage4ParseData extends OpenImage4Params {
             openImageDetails = new ArrayList<>();
 
             viewPair = initShareView(openImageDetails);
-            if (checkIllegalException4ShareView(viewPair,"请确保是否调用了setClickPosition并且参数设置正确，或 SourceImageViewIdGet 返回的 ImageView 的Id正确")){
+            if (checkIllegalException4ShareView(viewPair, "请确保是否调用了setClickPosition并且参数设置正确，或 SourceImageViewIdGet 返回的 ImageView 的Id正确")) {
                 return;
             }
 
@@ -176,7 +176,7 @@ class OpenImage4ParseData extends OpenImage4Params {
             openImageDetails = new ArrayList<>();
 
             viewPair = initShareView(openImageDetails);
-            if (checkIllegalException4ShareView(viewPair,"请确保是否调用了setClickPosition并且参数设置正确，SourceImageViewGet 返回的 ImageView 不能为null")){
+            if (checkIllegalException4ShareView(viewPair, "请确保是否调用了setClickPosition并且参数设置正确，SourceImageViewGet 返回的 ImageView 不能为null")) {
                 return;
             }
             View shareViewClick = viewPair.first;
@@ -199,7 +199,7 @@ class OpenImage4ParseData extends OpenImage4Params {
             openImageDetails = new ArrayList<>();
 
             viewPair = initShareView(openImageDetails);
-            if (checkIllegalException4ShareView(viewPair,"请确保是否调用了setClickPosition并且参数设置正确，或所传"+(oldSrcViewType == SrcViewType.WEB_VIEW?"ClickViewParam":"ImageView")+"个数是否正确")){
+            if (checkIllegalException4ShareView(viewPair, "请确保是否调用了setClickPosition并且参数设置正确，或所传" + (oldSrcViewType == SrcViewType.WEB_VIEW ? "ClickViewParam" : "ImageView") + "个数是否正确")) {
                 return;
             }
 
@@ -219,35 +219,35 @@ class OpenImage4ParseData extends OpenImage4Params {
             layoutParams2.leftMargin = webViewLocation[0];
             layoutParams2.topMargin = webViewLocation[1];
             FrameLayout frameLayout = new FrameLayout(context);
-            decorView.addView(frameLayout,layoutParams2);
+            decorView.addView(frameLayout, layoutParams2);
 
             imageViews = new ArrayList<>();
             ImageView clickImageView = null;
             int index = 0;
             for (ClickViewParam clickViewParam : clickViewParams) {
-                if (clickViewParam == null && ActivityCompatHelper.isApkInDebug(context)){
+                if (clickViewParam == null && ActivityCompatHelper.isApkInDebug(context)) {
                     throw new IllegalArgumentException("ClickViewParam 不可为 null");
-                }else if (clickViewParam != null){
+                } else if (clickViewParam != null) {
                     ImageView imageView = new ImageView(context);
                     int webViewWidth = parentParamsView.getWidth();
-                    float scale = clickViewParam.imgWidth *1f/clickViewParam.browserWidth;
-                    float scale2 = clickViewParam.browserWidth *1f/webViewWidth;
-                    int imageViewWidth = (int) (webViewWidth*scale);
-                    int imageViewHeight = (int) (imageViewWidth*(clickViewParam.imgHeight *1f/clickViewParam.imgWidth));
-                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(imageViewWidth,imageViewHeight);
-                    layoutParams.topMargin = (int) (clickViewParam.marginTop/scale2);
-                    layoutParams.leftMargin = (int) (clickViewParam.marginLeft/scale2);
-                    frameLayout.addView(imageView,layoutParams);
+                    float scale = clickViewParam.imgWidth * 1f / clickViewParam.browserWidth;
+                    float scale2 = clickViewParam.browserWidth * 1f / webViewWidth;
+                    int imageViewWidth = (int) (webViewWidth * scale);
+                    int imageViewHeight = (int) (imageViewWidth * (clickViewParam.imgHeight * 1f / clickViewParam.imgWidth));
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(imageViewWidth, imageViewHeight);
+                    layoutParams.topMargin = (int) (clickViewParam.marginTop / scale2);
+                    layoutParams.leftMargin = (int) (clickViewParam.marginLeft / scale2);
+                    frameLayout.addView(imageView, layoutParams);
                     autoSetScaleType(imageView);
                     imageViews.add(imageView);
-                    if (index == clickViewPosition){
+                    if (index == clickViewPosition) {
                         clickImageView = imageView;
                     }
                 }
                 index++;
             }
             final View posView = clickImageView;
-            if (posView != null){
+            if (posView != null) {
                 posView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
@@ -255,35 +255,35 @@ class OpenImage4ParseData extends OpenImage4Params {
                         show4ParseData();
                     }
                 });
-            }else {
+            } else {
                 show4ParseData();
             }
             return;
         } else {
-            if (ActivityCompatHelper.isApkInDebug(context)){
+            if (ActivityCompatHelper.isApkInDebug(context)) {
                 throw new IllegalArgumentException("请设置至少一个点击的ImageView");
-            }else {
-                Log.e("OpenImage","请设置至少一个点击的ImageView");
+            } else {
+                Log.e("OpenImage", "请设置至少一个点击的ImageView");
                 return;
             }
         }
         String dataKey = this.toString();
         intent.putExtra(OpenParams.ON_BACK_VIEW, backViewKey);
         intent.putExtra(OpenParams.IMAGES, dataKey);
-        ImageLoadUtils.getInstance().setOpenImageDetailData(dataKey,openImageDetails);
+        ImageLoadUtils.getInstance().setOpenImageDetailData(dataKey, openImageDetails);
         postOpen(intent, viewPair);
     }
 
-    private boolean checkIllegalException4ShareView(Pair<View, String> viewPair,String str){
-        if (viewPair == null){
-            if (ActivityCompatHelper.isApkInDebug(context)){
-                throw new IllegalArgumentException(str+",详情看问题13 https://github.com/FlyJingFish/OpenImage/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98#13%E5%81%87%E5%A6%82%E7%A2%B0%E5%88%B0%E4%BB%A5%E4%B8%8B%E5%87%A0%E7%A7%8D%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA");
-            }else {
+    private boolean checkIllegalException4ShareView(Pair<View, String> viewPair, String str) {
+        if (viewPair == null) {
+            if (ActivityCompatHelper.isApkInDebug(context)) {
+                throw new IllegalArgumentException(str + ",详情看问题13 https://github.com/FlyJingFish/OpenImage/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98#13%E5%81%87%E5%A6%82%E7%A2%B0%E5%88%B0%E4%BB%A5%E4%B8%8B%E5%87%A0%E7%A7%8D%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA");
+            } else {
                 isNoneClickView = true;
                 show4ParseData();
                 return true;
             }
-        }else {
+        } else {
             return false;
         }
 
@@ -291,7 +291,7 @@ class OpenImage4ParseData extends OpenImage4Params {
 
     private Pair<View, String> initShareView(ArrayList<OpenImageDetail> openImageDetails) {
         Pair<View, String> pair = null;
-        if (isNoneClickView){
+        if (isNoneClickView) {
             for (int i = 0; i < openImageUrls.size(); i++) {
                 OpenImageUrl imageBean = openImageUrls.get(i);
                 if (imageBean.getType() == MediaType.IMAGE || imageBean.getType() == MediaType.VIDEO) {
@@ -302,7 +302,7 @@ class OpenImage4ParseData extends OpenImage4Params {
                     openImageDetails.add(openImageDetail);
                 }
             }
-        }else if (srcViewType == SrcViewType.RV || srcViewType == SrcViewType.AB_LIST) {
+        } else if (srcViewType == SrcViewType.RV || srcViewType == SrcViewType.AB_LIST) {
             int[] position = getVisiblePosition();
             int firstPos = position[0];
             int lastPos = position[1];
@@ -406,28 +406,27 @@ class OpenImage4ParseData extends OpenImage4Params {
                 openImageDetail.srcHeight = shareViewHeight;
                 openImageDetails.add(openImageDetail);
             }
-        } else if (srcViewType == SrcViewType.IV){
+        } else if (srcViewType == SrcViewType.IV) {
             for (int i = 0; i < openImageUrls.size(); i++) {
                 OpenImageUrl imageBean = openImageUrls.get(i);
                 OpenImageDetail openImageDetail = OpenImageDetail.getNewOpenImageDetail();
                 openImageDetail.openImageUrl = imageBean;
                 openImageDetail.dataPosition = i;
                 openImageDetail.viewPosition = i;
-                if (i < imageViews.size()){
-                    ImageView shareView = imageViews.get(i);
-                    autoSetScaleType(shareView);
-                    String shareName = OpenParams.SHARE_VIEW + i;
-                    int shareViewWidth = shareView.getWidth();
-                    int shareViewHeight = shareView.getHeight();
-                    openImageDetail.srcWidth = shareViewWidth;
-                    openImageDetail.srcHeight = shareViewHeight;
-                    if (clickViewPosition == i) {
-                        pair = Pair.create(shareView, shareName);
-                    }
-                }
+
+                ImageView shareView = imageViews.get(0);
+                autoSetScaleType(shareView);
+                String shareName = OpenParams.SHARE_VIEW + clickViewPosition;
+                int shareViewWidth = shareView.getWidth();
+                int shareViewHeight = shareView.getHeight();
+                openImageDetail.srcWidth = shareViewWidth;
+                openImageDetail.srcHeight = shareViewHeight;
+                pair = Pair.create(shareView, shareName);
+
                 openImageDetails.add(openImageDetail);
             }
-        }else {
+
+        } else {
             for (int i = 0; i < openImageUrls.size(); i++) {
                 OpenImageUrl imageBean = openImageUrls.get(i);
                 if (imageBean.getType() == MediaType.IMAGE || imageBean.getType() == MediaType.VIDEO) {
@@ -445,17 +444,17 @@ class OpenImage4ParseData extends OpenImage4Params {
 
 
     private void postOpen(Intent intent, Pair<View, String> viewPair) {
-        ImageLoadUtils.getInstance().setCanOpenOpenImageActivity(contextKey,false);
+        ImageLoadUtils.getInstance().setCanOpenOpenImageActivity(contextKey, false);
         OpenImageUrl openImageUrl = openImageUrls.get(clickDataPosition);
         final String key = openImageUrl.toString();
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = () -> {
             Drawable drawable;
-            if (viewPair != null && viewPair.first instanceof ImageView && (drawable = ((ImageView) viewPair.first).getDrawable()) != null){
+            if (viewPair != null && viewPair.first instanceof ImageView && (drawable = ((ImageView) viewPair.first).getDrawable()) != null) {
                 intent.putExtra(OpenParams.OPEN_COVER_DRAWABLE, key);
                 ImageLoadUtils.getInstance().setSmallCoverDrawable(key, drawable);
                 startActivity(intent, viewPair, key);
-            }else {
+            } else {
                 startActivity(intent, viewPair, null);
             }
         };
@@ -469,7 +468,7 @@ class OpenImage4ParseData extends OpenImage4Params {
                 ImageLoadUtils.getInstance().setCoverDrawable(key, drawable);
                 ImageLoadUtils.getInstance().setCoverFilePath(key, filePath);
                 startActivity(intent, viewPair, key);
-                recordTime(key,SystemClock.uptimeMillis() - startRecord);
+                recordTime(key, SystemClock.uptimeMillis() - startRecord);
             }
 
             @Override
@@ -482,41 +481,41 @@ class OpenImage4ParseData extends OpenImage4Params {
     }
 
     private static final int MAX_DELAY_MS = 100;
-    private static final Map<String,Long> useTime = new HashMap<>();
+    private static final Map<String, Long> useTime = new HashMap<>();
 
-    private static long getDelayOpenTimeMs(){
+    private static long getDelayOpenTimeMs() {
         int size = useTime.size();
         long use;
-        if (size > 4){
-            Set<Map.Entry<String,Long>> set = useTime.entrySet();
+        if (size > 4) {
+            Set<Map.Entry<String, Long>> set = useTime.entrySet();
             long total = 0;
             long max = 0;
             long min = Long.MAX_VALUE;
             for (Map.Entry<String, Long> stringLongEntry : set) {
                 total += stringLongEntry.getValue();
-                if (stringLongEntry.getValue() > max){
+                if (stringLongEntry.getValue() > max) {
                     max = stringLongEntry.getValue();
                 }
-                if (stringLongEntry.getValue() < min){
+                if (stringLongEntry.getValue() < min) {
                     min = stringLongEntry.getValue();
                 }
             }
-            use = (total - min - max)/(size - 2);
-        }else {
+            use = (total - min - max) / (size - 2);
+        } else {
             use = MAX_DELAY_MS;
         }
-        use = Math.min(use,MAX_DELAY_MS);
+        use = Math.min(use, MAX_DELAY_MS);
         return use;
     }
 
-    private static void recordTime(String key,long time){
-        if (useTime.containsKey(key)){
+    private static void recordTime(String key, long time) {
+        if (useTime.containsKey(key)) {
             Long oldTime = useTime.get(key);
-            if (oldTime == null || oldTime < time){
-                useTime.put(key,time);
+            if (oldTime == null || oldTime < time) {
+                useTime.put(key, time);
             }
-        }else {
-            useTime.put(key,time);
+        } else {
+            useTime.put(key, time);
         }
     }
 
@@ -538,7 +537,7 @@ class OpenImage4ParseData extends OpenImage4Params {
                     releaseImageLoadUtilMap();
                 }
                 release();
-            }else if (ActivityCompatHelper.assertValidRequest(context) && isNoneClickView) {
+            } else if (ActivityCompatHelper.assertValidRequest(context) && isNoneClickView) {
                 context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context).toBundle());
                 release();
             } else {
@@ -677,30 +676,32 @@ class OpenImage4ParseData extends OpenImage4Params {
         }
 
     }
+
     void releaseActivity(final Context context) {
-        ((Activity) context).getApplication().registerActivityLifecycleCallbacks(new OpenImageActivityLifecycleCallbacks(){
+        ((Activity) context).getApplication().registerActivityLifecycleCallbacks(new OpenImageActivityLifecycleCallbacks() {
             @Override
             public void onActivityDestroyed(@NonNull Activity activity) {
-                if (context == activity){
+                if (context == activity) {
                     releaseAllData();
                     activity.getApplication().unregisterActivityLifecycleCallbacks(this);
                 }
             }
         });
     }
+
     void releaseAppFragment(final android.app.Fragment fragment) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ((Activity) fragment.getContext()).getFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
                 @Override
                 public void onFragmentDestroyed(FragmentManager fm, android.app.Fragment f) {
                     super.onFragmentDestroyed(fm, f);
-                    if (f == fragment){
+                    if (f == fragment) {
                         releaseAllData();
                         fm.unregisterFragmentLifecycleCallbacks(this);
                     }
                 }
-            },true);
-        }else {
+            }, true);
+        } else {
             isReleaseAllData = true;
         }
     }
@@ -708,7 +709,7 @@ class OpenImage4ParseData extends OpenImage4Params {
     @Override
     void onExit() {
         super.onExit();
-        if (isReleaseAllData){
+        if (isReleaseAllData) {
             releaseAllData();
         }
     }
